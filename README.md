@@ -15,7 +15,7 @@ Transform your e-commerce pricing strategy with professional-grade calculations 
 
 ---
 
-## 🚀 **[Try the Live Demo]([https://yourusername.github.io/ecommerce-pricing-demo](https://github.com/LucindaKittel/ecommerce-pricing-toolbox--demo.git))**
+## 🚀 **[Try the Live Demo](https://LucindaKittel.github.io/ecommerce-pricing-toolbox--demo)**
 
 **Demo includes 3 free calculations** - Perfect for testing the tool!
 
