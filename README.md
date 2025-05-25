@@ -65,9 +65,10 @@ Ready to unlock unlimited calculations and advanced features?
 - ✅ **Cost breakdown analysis** for better insights
 - ✅ **Priority email support** for any questions
 
-### 💰 **Special Launch Price: $29** ~~$49~~
+### 💰 **Special Launch Price: $15.99** ~~$29.99~~
 
-[![Get Full Version](https://ecommtoolbox.gumroad.com/l/mltdt)])
+[![Get Full Version](https://img.shields.io/badge/💎_Get_Full_Version-$15.99_Only-00C851?style=for-the-badge&logo=creditcard)](https://ecommtoolbox.gumroad.com/l/mltdt)
+
 
 ---
 
