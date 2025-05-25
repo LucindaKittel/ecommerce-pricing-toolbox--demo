@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Pricing Toolbox - Demo</title>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #fafafa;
+            min-height: 100vh;
+            color: #36313d;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+            max-width: 1400px;
+            margin: 0 auto;
+            border: 1px solid #f0f0f0;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #36313d;
+            margin-bottom: 32px;
+            font-size: 2.25rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            background: linear-gradient(135deg, #ffd700 0%, #ffb347 50%, #ff90e8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.2));
+        }
+        
+        .controls {
+            margin-bottom: 24px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 20px;
+            background: #fafafa;
+            border-radius: 8px;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .btn {
+            background: #ff90e8;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background: #ff7ce2;
+            transform: translateY(-1px);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .input-group label {
+            font-weight: 500;
+            color: #36313d;
+            font-size: 14px;
+        }
+        
+        .input-group input, .input-group select {
+            padding: 8px 12px;
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            background: white;
+        }
+        
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #ff90e8;
+            box-shadow: 0 0 0 3px rgba(255, 144, 232, 0.1);
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid #f0f0f0;
+            background: white;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            font-size: 14px;
+        }
+        
+        th {
+            background: #36313d;
+            color: white;
+            padding: 16px 12px;
+            text-align: left;
+            font-weight: 600;
+            border: none;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        td {
+            padding: 16px 12px;
+            border-bottom: 1px solid #f8f8f8;
+            vertical-align: middle;
+        }
+        
+        tr:hover {
+            background-color: #fafafa;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .product-name {
+            font-weight: 600;
+            color: #36313d;
+        }
+        
+        .cost-input, .price-input {
+            width: 80px;
+            padding: 8px 10px;
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 500;
+            background: white;
+        }
+        
+        .cost-input:focus, .price-input:focus {
+            outline: none;
+            border-color: #ff90e8;
+            box-shadow: 0 0 0 3px rgba(255, 144, 232, 0.1);
+        }
+        
+        .profit {
+            font-weight: 700;
+            color: #10b981;
+        }
+        
+        .margin {
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        
+        .low-margin {
+            color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+        }
+        
+        .medium-margin {
+            color: #f59e0b;
+            background: rgba(245, 158, 11, 0.1);
+        }
+        
+        .high-margin {
+            color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+        
+        .recommendation {
+            font-style: normal;
+            color: #6b7280;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        
+        .summary {
+            margin-top: 32px;
+            background: #fafafa;
+            padding: 24px;
+            border-radius: 8px;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .summary h3 {
+            color: #36313d;
+            margin-bottom: 20px;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        
+        .stat {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #ff90e8;
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            color: #6b7280;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        /* Demo-specific styles */
+        .demo-counter {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 107, 107, 0.95);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 600;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .demo-counter.warning {
+            background: rgba(255, 71, 87, 0.95);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Demo Usage Counter -->
+    <div class="demo-counter" id="demoCounter">
+        DEMO: <span id="demoCount">3</span> actions left
+    </div>
+
+    <!-- Upgrade Modal -->
+    <div id="upgradeModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px);">
+        <div style="background: white; padding: 40px; border-radius: 20px; text-align: center; max-width: 550px; margin: 20px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);">
+            <div style="font-size: 4rem; margin-bottom: 20px;">🚀</div>
+            <h2 style="color: #36313d; margin-bottom: 15px; font-size: 1.8rem;">Demo Limit Reached!</h2>
+            <p style="margin-bottom: 25px; font-size: 16px; color: #555; line-height: 1.5;">You've experienced the power of our professional pricing calculator!</p>
+            
+            <div style="background: #fafafa; padding: 25px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #f0f0f0;">
+                <h3 style="color: #36313d; margin-bottom: 15px; font-size: 1.2rem;">🧰 Full Version Includes:</h3>
+                <div style="text-align: left; display: inline-block; font-size: 15px; line-height: 1.8;">
+                    <div>✅ <strong>Unlimited calculations</strong> & product analysis</div>
+                    <div>✅ <strong>CSV export</strong> functionality</div>
+                    <div>✅ <strong>Bulk product</strong> analysis tools</div>
+                    <div>✅ <strong>Advanced cost</strong> breakdowns</div>
+                    <div>✅ <strong>10+ currency</strong> support with live rates</div>
+                    <div>✅ <strong>Competitor pricing</strong> research tools</div>
+                    <div>✅ <strong>Profit optimization</strong> recommendations</div>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <button onclick="window.open('https://your-gumroad-link.com', '_blank')" style="background: linear-gradient(135deg, #ff90e8 0%, #ff7ce2 100%); color: white; border: none; padding: 15px 30px; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                    Get Full Version - $29
+                </button>
+                <button onclick="refreshDemo()" style="background: #6c757d; color: white; border: none; padding: 15px 20px; border-radius: 10px; cursor: pointer; font-size: 14px; transition: all 0.2s;">
+                    Try 3 More (Refresh)
+                </button>
+            </div>
+            
+            <p style="margin-top: 20px; font-size: 13px; color: #6b7280;">💡 <strong>Special Launch Price:</strong> Save 40% for limited time!</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1><span class="logo-icon">🧰</span> E-Commerce Pricing Toolbox</h1>
+        
+        <div class="controls">
+            <div class="input-group">
+                <label>Standard Shipping:</label>
+                <input type="number" id="shippingFee" value="10" step="0.01">
+                <span>AUD</span>
+            </div>
+            <div class="input-group">
+                <label>Transaction Fee:</label>
+                <input type="number" id="transactionRate" value="3" step="0.1">
+                <span>%</span>
+            </div>
+            <button class="btn" onclick="demoAddProduct()">+ Add Product</button>
+            <button class="btn" onclick="demoExportToCSV()">Export CSV</button>
+            <button class="btn" onclick="demoRecalculateAll()">Recalculate All</button>
+        </div>
+        
+        <div class="table-container">
+            <table id="pricingTable">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Product Cost</th>
+                        <th>Currency</th>
+                        <th>Exchange Rate to AUD</th>
+                        <th>Product Cost (AUD)</th>
+                        <th>Shipping Fee (AUD)</th>
+                        <th>Current Price (AUD)</th>
+                        <th>Transaction Fee (AUD)</th>
+                        <th>Total Costs (AUD)</th>
+                        <th>Net Profit (AUD)</th>
+                        <th>Profit Margin (%)</th>
+                        <th>Recommended Price (AUD)</th>
+                        <th>Notes</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <tr id="row1">
+                        <td class="product-name">The Sunday Tote</td>
+                        <td><input type="number" class="cost-input" value="6.84" step="0.01" onchange="demoCalculateRow(1)"></td>
+                        <td>
+                            <select class="currency-select" onchange="demoUpdateExchangeRate(1)" style="padding: 6px; border: 1px solid #ddd; border-radius: 4px;">
+                                <option value="USD" data-rate="1.52">USD ($)</option>
+                                <option value="EUR" data-rate="1.65">EUR (€)</option>
+                                <option value="GBP" data-rate="1.90">GBP (£)</option>
+                                <option value="CAD" data-rate="1.10">CAD (C$)</option>
+                                <option value="CNY" data-rate="0.21">CNY (¥)</option>
+                                <option value="JPY" data-rate="0.010">JPY (¥)</option>
+                                <option value="KRW" data-rate="0.0011">KRW (₩)</option>
+                                <option value="SGD" data-rate="1.12">SGD (S$)</option>
+                                <option value="HKD" data-rate="0.19">HKD (HK$)</option>
+                                <option value="NZD" data-rate="0.90">NZD (NZ$)</option>
+                            </select>
+                        </td>
+                        <td><input type="number" class="cost-input exchange-rate" value="1.52" step="0.01" onchange="demoCalculateRow(1)"></td>
+                        <td class="aud-cost">10.40</td>
+                        <td class="shipping-cost">10.00</td>
+                        <td><input type="number" class="price-input" value="35.00" step="0.01" onchange="demoCalculateRow(1)"></td>
+                        <td class="transaction-fee">1.05</td>
+                        <td class="total-cost">21.45</td>
+                        <td class="profit">13.55</td>
+                        <td class="margin medium-margin">38.7%</td>
+                        <td class="recommended">40.00</td>
+                        <td class="recommendation">Good margin. Could test higher price.</td>
+                        <td><button class="btn" onclick="demoRemoveRow(1)" style="background: #ef4444; padding: 8px 16px; font-size: 13px;">Remove</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="summary">
+            <h3>Summary Analytics</h3>
+            <div class="summary-stats">
+                <div class="stat">
+                    <div class="stat-value" id="avgMargin">38.7%</div>
+                    <div class="stat-label">Average Margin</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="totalProfit">$13.55</div>
+                    <div class="stat-label">Total Profit per Order</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="productCount">1</div>
+                    <div class="stat-label">Products Analyzed</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="avgPrice">$35.00</div>
+                    <div class="stat-label">Average Price</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>E-Commerce Pricing Toolbox</strong> - Professional Product Pricing Calculator</p>
+            <p>© 2025 - All rights reserved. | <a href="#" onclick="showUpgradeModal()" style="color: #ff90e8; text-decoration: none;">Upgrade to Full Version</a></p>
+        </div>
+    </div>
+
+    <script>
+        let rowCount = 1;
+        
+        // Demo limitation variables
+        let demoActionsUsed = 0;
+        const maxDemoActions = 3;
+        
+        function checkDemoLimit() {
+            if (demoActionsUsed >= maxDemoActions) {
+                showUpgradeModal();
+                return false;
+            }
+            return true;
+        }
+        
+        function useDemoAction() {
+            demoActionsUsed++;
+            updateDemoCounter();
+        }
+        
+        function updateDemoCounter() {
+            const remaining = maxDemoActions - demoActionsUsed;
+            document.getElementById('demoCount').textContent = remaining;
+            
+            if (remaining <= 1) {
+                document.getElementById('demoCounter').classList.add('warning');
+            }
+            
+            if (remaining <= 0) {
+                const buttons = document.querySelectorAll('.btn');
+                buttons.forEach(btn => btn.disabled = true);
+            }
+        }
+        
+        function showUpgradeModal() {
+            document.getElementById('upgradeModal').style.display = 'flex';
+        }
+        
+        function refreshDemo() {
+            location.reload();
+        }
+        
+        // Demo wrapper functions
+        function demoUpdateExchangeRate(rowId) {
+            if (!checkDemoLimit()) return;
+            updateExchangeRate(rowId);
+            useDemoAction();
+        }
+        
+        function demoCalculateRow(rowId) {
+            if (!checkDemoLimit()) return;
+            calculateRow(rowId);
+            useDemoAction();
+        }
+        
+        function demoAddProduct() {
+            if (!checkDemoLimit()) return;
+            addProduct();
+            useDemoAction();
+        }
+        
+        function demoRemoveRow(rowId) {
+            if (!checkDemoLimit()) return;
+            removeRow(rowId);
+            useDemoAction();
+        }
+        
+        function demoRecalculateAll() {
+            if (!checkDemoLimit()) return;
+            recalculateAll();
+            useDemoAction();
+        }
+        
+        function demoExportToCSV() {
+            if (!checkDemoLimit()) return;
+            exportToCSV();
+            useDemoAction();
+        }
+        
+        // Original functions (unchanged)
+        function updateExchangeRate(rowId) {
+            const row = document.getElementById(`row${rowId}`);
+            if (!row) return;
+            
+            const currencySelect = row.querySelector('.currency-select');
+            const selectedOption = currencySelect.options[currencySelect.selectedIndex];
+            const rate = selectedOption.getAttribute('data-rate');
+            
+            row.querySelector('.exchange-rate').value = rate;
+            calculateRow(rowId);
+        }
+        
+        function calculateRow(rowId) {
+            const row = document.getElementById(`row${rowId}`);
+            if (!row) return;
+            
+            const productCostForeign = parseFloat(row.querySelector('.cost-input').value) || 0;
+            const exchangeRate = parseFloat(row.querySelector('.exchange-rate').value) || 1;
+            const productCostAUD = productCostForeign * exchangeRate;
+            const currentPrice = parseFloat(row.querySelector('.price-input').value) || 0;
+            const shippingFee = parseFloat(document.getElementById('shippingFee').value) || 0;
+            const transactionRate = parseFloat(document.getElementById('transactionRate').value) || 0;
+            
+            const transactionFee = currentPrice * (transactionRate / 100);
+            const totalCost = productCostAUD + shippingFee + transactionFee;
+            const netProfit = currentPrice - totalCost;
+            const profitMargin = currentPrice > 0 ? (netProfit / currentPrice) * 100 : 0;
+            
+            const recommendedPrice = Math.ceil((totalCost - transactionFee) / 0.6);
+            
+            row.querySelector('.aud-cost').textContent = productCostAUD.toFixed(2);
+            row.querySelector('.shipping-cost').textContent = shippingFee.toFixed(2);
+            row.querySelector('.transaction-fee').textContent = transactionFee.toFixed(2);
+            row.querySelector('.total-cost').textContent = totalCost.toFixed(2);
+            row.querySelector('.profit').textContent = netProfit.toFixed(2);
+            row.querySelector('.margin').textContent = profitMargin.toFixed(1) + '%';
+            row.querySelector('.recommended').textContent = recommendedPrice.toFixed(2);
+            
+            const marginElement = row.querySelector('.margin');
+            marginElement.className = 'margin';
+            if (profitMargin < 25) {
+                marginElement.classList.add('low-margin');
+            } else if (profitMargin < 40) {
+                marginElement.classList.add('medium-margin');
+            } else {
+                marginElement.classList.add('high-margin');
+            }
+            
+            let note = '';
+            if (profitMargin < 20) {
+                note = 'Low margin. Consider increasing price.';
+            } else if (profitMargin < 30) {
+                note = 'Acceptable margin. Room for improvement.';
+            } else if (profitMargin < 45) {
+                note = 'Good margin. Could test higher price.';
+            } else {
+                note = 'Excellent margin. Monitor competition.';
+            }
+            
+            const currency = row.querySelector('.currency-select').value;
+            if (['CNY', 'KRW', 'JPY'].includes(currency)) {
+                note += ' Monitor exchange rates closely.';
+            }
+            
+            row.querySelector('.recommendation').textContent = note;
+            updateSummary();
+        }
+        
+        function addProduct() {
+            rowCount++;
+            const tbody = document.getElementById('tableBody');
+            const newRow = document.createElement('tr');
+            newRow.id = `row${rowCount}`;
+            newRow.innerHTML = `
+                <td><input type="text" class="product-name" placeholder="Product Name" style="border: 1px solid #ddd; padding: 6px; width: 120px;"></td>
+                <td><input type="number" class="cost-input" value="0" step="0.01" onchange="demoCalculateRow(${rowCount})"></td>
+                <td>
+                    <select class="currency-select" onchange="demoUpdateExchangeRate(${rowCount})" style="padding: 6px; border: 1px solid #ddd; border-radius: 4px;">
+                        <option value="USD" data-rate="1.52">USD ($)</option>
+                        <option value="EUR" data-rate="1.65">EUR (€)</option>
+                        <option value="GBP" data-rate="1.90">GBP (£)</option>
+                        <option value="CAD" data-rate="1.10">CAD (C$)</option>
+                        <option value="CNY" data-rate="0.21">CNY (¥)</option>
+                        <option value="JPY" data-rate="0.010">JPY (¥)</option>
+                        <option value="KRW" data-rate="0.0011">KRW (₩)</option>
+                        <option value="SGD" data-rate="1.12">SGD (S$)</option>
+                        <option value="HKD" data-rate="0.19">HKD (HK$)</option>
+                        <option value="NZD" data-rate="0.90">NZD (NZ$)</option>
+                    </select>
+                </td>
+                <td><input type="number" class="cost-input exchange-rate" value="1.52" step="0.01" onchange="demoCalculateRow(${rowCount})"></td>
+                <td class="aud-cost">0.00</td>
+                <td class="shipping-cost">10.00</td>
+                <td><input type="number" class="price-input" value="0" step="0.01" onchange="demoCalculateRow(${rowCount})"></td>
+                <td class="transaction-fee">0.00</td>
+                <td class="total-cost">10.00</td>
+                <td class="profit">-10.00</td>
+                <td class="margin low-margin">0.0%</td>
+                <td class="recommended">0.00</td>
+                <td class="recommendation">Enter product details</td>
+                <td><button class="btn" onclick="demoRemoveRow(${rowCount})" style="background: #ef4444; padding: 8px 16px; font-size: 13px;">Remove</button></td>
+            `;
+            tbody.appendChild(newRow);
+            calculateRow(rowCount);
+        }
+        
+        function removeRow(rowId) {
+            const row = document.getElementById(`row${rowId}`);
+            if (row) {
+                row.remove();
+                updateSummary();
+            }
+        }
+        
+        function recalculateAll() {
+            const rows = document.querySelectorAll('#tableBody tr');
+            rows.forEach((row, index) => {
+                const rowId = row.id.replace('row', '');
+                calculateRow(rowId);
+            });
+        }
+        
+        function updateSummary() {
+            const rows = document.querySelectorAll('#tableBody tr');
+            let totalMargin = 0;
+            let totalProfit = 0;
+            let totalPrice = 0;
+            let validRows = 0;
+            
+            rows.forEach(row => {
+                const marginText = row.querySelector('.margin').textContent;
+                const profitText = row.querySelector('.profit').textContent;
+                const priceInput = row.querySelector('.price-input');
+                
+                const margin = parseFloat(marginText.replace('%', ''));
+                const profit = parseFloat(profitText);
+                const price = parseFloat(priceInput.value);
+                
+                if (!isNaN(margin) && !isNaN(profit) && !isNaN(price)) {
+                    totalMargin += margin;
+                    totalProfit += profit;
+                    totalPrice += price;
+                    validRows++;
+                }
+            });
+            
+            if (validRows > 0) {
+                document.getElementById('avgMargin').textContent = (totalMargin / validRows).toFixed(1) + '%';
+                document.getElementById('totalProfit').textContent = '$' + totalProfit.toFixed(2);
+                document.getElementById('avgPrice').textContent = '$' + (totalPrice / validRows).toFixed(2);
+            }
+            document.getElementById('productCount').textContent = validRows;
+        }
+        
+        function exportToCSV() {
+            const table = document.getElementById('pricingTable');
+            let csv = [];
+            
+            const headers = [];
+            table.querySelectorAll('th').forEach(th => {
+                headers.push(th.textContent.trim());
+            });
+            csv.push(headers.join(','));
+            
+            table.querySelectorAll('tbody tr').forEach(row => {
+                const rowData = [];
+                const productName = row.querySelector('.product-name').value || row.querySelector('.product-name').textContent;
+                const productCost = row.querySelector('.cost-input').value;
+                const shipping = row.querySelector('.shipping-cost').textContent;
+                const price = row.querySelector('.price-input').value;
+                const transactionFee = row.querySelector('.transaction-fee').textContent;
+                const totalCost = row.querySelector('.total-cost').textContent;
+                const profit = row.querySelector('.profit').textContent;
+                const margin = row.querySelector('.margin').textContent;
+                const recommended = row.querySelector('.recommended').textContent;
+                const notes = row.querySelector('.recommendation').textContent;
+                
+                rowData.push(productName, productCost, shipping, price, transactionFee, totalCost, profit, margin, recommended, `"${notes}"`, 'N/A');
+                csv.push(rowData.join(','));
+            });
+            
+            const csvContent = csv.join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ecommerce_pricing_analysis.csv';
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+        
+        document.getElementById('shippingFee').addEventListener('change', demoRecalculateAll);
+        document.getElementById('transactionRate').addEventListener('change', demoRecalculateAll);
+        
+        // Initialize
+        calculateRow(1);
+        updateDemoCounter();
+    </script>
+</body>
+</html>
