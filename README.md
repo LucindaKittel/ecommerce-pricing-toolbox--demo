@@ -97,9 +97,9 @@ Ready to unlock unlimited calculations and advanced features?
 ## 🤝 **Support & Contact**
 
 - 📧 **Email:** lucinda.kittel@outlook.com
-- 💬 **Discord:** Lucindakittel 
+- 💬 **Discord:** [Discord](https://discord.com/channels/@brandgrid)
 - 🌐 **LinkedIn:**[LinkedIn](https://www.linkedin.com/in/lucindakittel/)
-- 🌐 **Website:** [Website](https://ecommtoolbox.gumroad.com/l/mltdt)]
+- 🌐 **Website:** [Website](https://ecommtoolbox.gumroad.com/l/mltdt)
 
 ---
 
