@@ -98,8 +98,8 @@ Ready to unlock unlimited calculations and advanced features?
 
 - 📧 **Email:** lucinda.kittel@outlook.com
 - 💬 **Discord:** Lucindakittel 
-- 🐦 **LinkedIn:** [](https://www.linkedin.com/in/lucindakittel/)
-- 🌐 **Website:** [your-website.com](https://ecommtoolbox.gumroad.com/l/mltdt)
+- 🌐 **LinkedIn:**[LinkedIn](https://www.linkedin.com/in/lucindakittel/)
+- 🌐 **Website:** [Website](https://ecommtoolbox.gumroad.com/l/mltdt)]
 
 ---
 
